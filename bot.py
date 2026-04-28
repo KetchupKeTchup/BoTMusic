@@ -3,8 +3,10 @@ import os
 from aiogram import Bot, Dispatcher, types
 from downloader import download_audio
 
-TOKEN = "ТУТ_ТВОЙ_TOKEN"
+from dotenv import load_dotenv
 
+load_dotenv()
+TOKEN = os.getenv("BOT_TOKEN")
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
