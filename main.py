@@ -1,15 +1,15 @@
 import yt_dlp
 import os
-ffmpeg_path = os.path.join(os.getcwd(), "ffmpeg.exe")
-def download_youtube_audio(url):
+import uuid
+
+def download_audio(url):
+    filename = f"temp/{uuid.uuid4()}.%(ext)s"
+
     ydl_opts = {
-        'ffmpeg_location': ffmpeg_path,
         'format': 'bestaudio/best',
+        'outtmpl': filename,
         'noplaylist': True,
-        'outtmpl': '%(title)s.%(ext)s',
-        'http_headers': {
-            'User-Agent': 'Mozilla/5.0'
-        },
+        'quiet': True,
         'postprocessors': [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
@@ -18,10 +18,7 @@ def download_youtube_audio(url):
     }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        ydl.download([url])
+        info = ydl.extract_info(url, download=True)
+        file_path = ydl.prepare_filename(info).replace(".webm", ".mp3").replace(".m4a", ".mp3")
 
-
-if __name__ == "__main__":
-    video_url = input("Силка на відео: ")
-    download_youtube_audio(video_url)
-    print("Ok")
+    return file_path
