@@ -1,9 +1,8 @@
 import yt_dlp
 import os
 import uuid
-from aiogram import Bot, Dispatcher, types
 from downloader import download_audio
-from dotenv import load_dotenv
+
 
 def download_audio(url):
     filename = f"temp/{uuid.uuid4()}.%(ext)s"
